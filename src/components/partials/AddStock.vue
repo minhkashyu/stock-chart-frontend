@@ -60,6 +60,7 @@
           title: this.stockCode,
           name: 'New Stock Prices, Dividends, Splits and Trading Volume'
         })
+        this.stockCode = ''
       }
     }
   }
