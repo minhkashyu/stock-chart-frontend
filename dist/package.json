@@ -1,0 +1,11 @@
+{
+  "name": "static-stock-market-frontend",
+  "version": "1.0.0",
+  "description": "Build the static version of the front end of the stock market app",
+  "main": "server.js",
+  "scripts": {
+    "postinstall": "npm install express"
+  },
+  "author": "minhkashyu",
+  "license": "MIT"
+}
