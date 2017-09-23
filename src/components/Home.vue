@@ -90,6 +90,6 @@
 
   .ui.card > .content .remove.icon:hover,
   .ui.cards > .card > .content .remove.icon:hover {
-    color: #125D84; /* dark ocean blue */
+    color: #213e46;
   }
 </style>

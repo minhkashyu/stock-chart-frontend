@@ -1,12 +1,16 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <site-footer></site-footer>
   </div>
 </template>
 
 <script>
+  import siteFooter from './components/partials/SiteFooter'
+
   export default {
-    name: 'app'
+    name: 'app',
+    components: {siteFooter}
   }
 </script>
 
