@@ -15,11 +15,12 @@
   @import url("./../semantic/dist/semantic.min.css");
 
   html {
-    height: 100%;
+    height: 100vh; /* set viewport constraint */
+    min-height: 100%; /* enforce height */
   }
 
   body {
-    background: #213e46 url('./assets/stock-market.jpg') no-repeat center center fixed !important;
+    background: #213e46 url('./assets/stock-market.jpg') no-repeat fixed center  !important;
     -webkit-background-size: cover !important;
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
