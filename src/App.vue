@@ -14,7 +14,7 @@
   @import url("https://fonts.googleapis.com/css?family=Roboto");
   @import url("./../semantic/dist/semantic.min.css");
 
-  html, body {
+  html {
     height: 100%;
   }
 
@@ -24,8 +24,9 @@
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
+    min-height: 100% !important;
   }
-  
+
   #app {
     font-family: "Roboto", "Helvetica", sans-serif;
     -webkit-font-smoothing: antialiased;
