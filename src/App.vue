@@ -20,6 +20,7 @@
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
+    padding-bottom: 20px;
   }
   #app {
     font-family: "Roboto", "Helvetica", sans-serif;
@@ -27,6 +28,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 </style>
