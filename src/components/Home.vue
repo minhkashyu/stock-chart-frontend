@@ -1,24 +1,22 @@
 <template>
   <div class="ui centered grid container">
     <h1 class="ui center aligned header">Chart the Stock Market</h1>
-    <h4 class="ui center aligned header">A Freecodecamp Full-Stack Project using Vue.js, Semantic UI with Google Material theme, Express.js, and MongoDB</h4>
+    <h4 class="ui center aligned header">A Freecodecamp Full-Stack Project using Vue.js, Semantic UI with Google Material theme, Express.js, Socket.IO, and MongoDB</h4>
     <div class="sixteen wide column">
-      <div id="curve_chart">
-        <i class="massive line chart icon"></i>
-      </div>
+      <div id="curve_chart"></div>
     </div>
     <div class="sixteen wide column">
       <div class="ui three stackable cards">
-        <div class="fluid centered raised card" :class="randomColor(index)" v-if="stocks.length > 0" v-for="(stock, index) in stocks" :key="stock.id">
+        <div class="fluid centered raised card" :class="randomColor(index)" v-if="stocks.length > 0" v-for="(stock, index) in stocks" :key="stock._id">
           <div class="content">
-            <i class="right floated remove icon" @click="removeStock(index)"></i>
-            <div class="header">{{ stock.title }}</div>
+            <i class="right floated remove icon" @click="removeStock(index, stock._id)"></i>
+            <div class="header">{{ stock.code }}</div>
             <div class="description">
               <p>{{ stock.name }}</p>
             </div>
           </div>
         </div>
-        <form-add-stock :stocks="stocks" :nextStockId="nextStockId" :errors="errors"></form-add-stock>
+        <form-add-stock :stocks="stocks" ></form-add-stock>
       </div>
     </div>
   </div>
@@ -32,30 +30,29 @@
     components: {formAddStock},
     data () {
       return {
-        errors: [],
-        stocks: [
-          {
-            id: 1,
-            title: 'FB',
-            name: 'Facebook'
-          },
-          {
-            id: 2,
-            title: 'GGL',
-            name: 'Google'
-          },
-          {
-            id: 3,
-            title: 'B',
-            name: 'Barnes Group Inc. (B) Prices, Dividends, Splits and Trading Volume'
-          },
-          {
-            id: 4,
-            title: 'K',
-            name: 'Kellogg Co (K) Prices, Dividends, Splits and Trading Volume'
-          }
-        ],
-        nextStockId: 5
+        stocks: [],
+        isConnected: false
+      }
+    },
+    sockets: {
+      connect () {
+        // Fired when the socket connects.
+        this.isConnected = true
+      },
+      disconnect () {
+        this.isConnected = false
+      },
+      getStocks (stocks) {
+        this.stocks = stocks
+      },
+      added (stock) {
+        this.stocks.push(stock)
+      },
+      deleted (stock) {
+        console.log(stock)
+        this.stocks = this.stocks.filter(function (item) {
+          return item._id !== stock._id
+        })
       }
     },
     methods: {
@@ -63,8 +60,9 @@
         let colors = ['pink', 'teal', 'yellow', 'violet', 'olive', 'orange', 'green', 'brown', 'blue', 'grey', 'purple', 'red']
         return colors[index % 12]
       },
-      removeStock (index) {
+      removeStock (index, stockId) {
         this.stocks.splice(index, 1)
+        this.$socket.emit('deleteStock', stockId)
       }
     }
   }
@@ -80,7 +78,6 @@
 
   #curve_chart {
     width: 100%;
-    background-color: #000000;
   }
 
   .ui.card > .content .remove.icon,

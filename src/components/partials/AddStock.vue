@@ -1,10 +1,11 @@
 <template>
   <div class="black fluid centered raised card">
-    <div class="ui top attached label">Syncs in realtime across clients</div>
     <div class="content">
-      <form class="ui form" @submit.prevent="addStock()" novalidate>
+      <div class="header">Syncs in realtime across clients</div>
+      <div class="description">
+        <form class="ui form" @submit.prevent="addStock()" novalidate>
         <div class="field">
-          <div class="ui action input">
+          <div class="ui fluid action input">
             <input type="text" v-model.trim="stockCode" @keyup.enter="submit" @keyup="validateInput()" name="stockCode" placeholder="Stock Code">
             <button class="ui right labeled icon button" type="submit">
               <i class="plus icon"></i>
@@ -15,13 +16,7 @@
             {{ errRequired }}
           </div>
         </div>
-      </form>
-      <div class="ui error message" v-if="errors.length > 0">
-        <i class="close icon"></i>
-        <div class="header">Error(s):</div>
-        <ul class="list">
-          <li v-for="error in errors">{{ error }}</li>
-        </ul>
+        </form>
       </div>
     </div>
   </div>
@@ -31,15 +26,17 @@
   export default {
     name: 'form-add-stock',
     props: {
-      errors: Array,
-      stocks: Array,
-      nextStockId: Number
+      stocks: Array
     },
     data () {
       return {
         stockCode: '',
-        errRequired: '',
-        mutableNextStockId: this.nextStockId
+        errRequired: ''
+      }
+    },
+    sockets: {
+      socketError (error) {
+        this.errRequired = error
       }
     },
     methods: {
@@ -55,11 +52,7 @@
           this.errRequired = 'Stock code cannot be empty.'
           return
         }
-        this.stocks.push({
-          id: this.mutableNextStockId++,
-          title: this.stockCode,
-          name: 'New Stock Prices, Dividends, Splits and Trading Volume'
-        })
+        this.$socket.emit('addStock', this.stockCode)
         this.stockCode = ''
       }
     }
