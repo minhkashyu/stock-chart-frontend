@@ -3,14 +3,14 @@
     <h1 class="ui center aligned header">Chart the Stock Market</h1>
     <h4 class="ui center aligned header">A Freecodecamp Full-Stack Project using Vue.js, Semantic UI with Google Material theme, Express.js, Socket.IO, and MongoDB</h4>
     <div class="sixteen wide column">
-      <div id="curve_chart"></div>
+      <site-chart></site-chart>
     </div>
     <div class="sixteen wide column">
       <div class="ui three stackable cards">
         <div class="fluid centered raised card" :class="randomColor(index)" v-if="stocks.length > 0" v-for="(stock, index) in stocks" :key="stock._id">
           <div class="content">
             <i class="right floated remove icon" @click="removeStock(index, stock._id)"></i>
-            <div class="header">{{ stock.code }}</div>
+            <div class="header">{{ stock.symbol }}</div>
             <div class="description">
               <p>{{ stock.name }}</p>
             </div>
@@ -24,10 +24,11 @@
 
 <script>
   import formAddStock from './partials/AddStock'
+  import siteChart from './partials/SiteChart'
 
   export default {
     name: 'home',
-    components: {formAddStock},
+    components: {formAddStock, siteChart},
     data () {
       return {
         stocks: [],
@@ -49,7 +50,6 @@
         this.stocks.push(stock)
       },
       deleted (stock) {
-        console.log(stock)
         this.stocks = this.stocks.filter(function (item) {
           return item._id !== stock._id
         })

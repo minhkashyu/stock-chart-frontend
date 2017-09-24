@@ -6,7 +6,7 @@
         <form class="ui form" @submit.prevent="addStock()" novalidate>
         <div class="field">
           <div class="ui fluid action input">
-            <input type="text" v-model.trim="stockCode" @keyup.enter="submit" @keyup="validateInput()" name="stockCode" placeholder="Stock Code">
+            <input type="text" v-model.trim="tickerSymbol" @keyup.enter="submit" @keyup="validateInput()" name="tickerSymbol" placeholder="Ticker Symbol">
             <button class="ui right labeled icon button" type="submit">
               <i class="plus icon"></i>
               Add
@@ -30,7 +30,7 @@
     },
     data () {
       return {
-        stockCode: '',
+        tickerSymbol: '',
         errRequired: ''
       }
     },
@@ -41,19 +41,19 @@
     },
     methods: {
       validateInput () {
-        if (!this.stockCode) {
-          this.errRequired = 'Stock code cannot be empty.'
+        if (!this.tickerSymbol) {
+          this.errRequired = 'Ticker symbol cannot be empty.'
         } else {
           this.errRequired = ''
         }
       },
       addStock () {
-        if (!this.stockCode) {
-          this.errRequired = 'Stock code cannot be empty.'
+        if (!this.tickerSymbol) {
+          this.errRequired = 'Ticker symbol cannot be empty.'
           return
         }
-        this.$socket.emit('addStock', this.stockCode)
-        this.stockCode = ''
+        this.$socket.emit('addStock', this.tickerSymbol)
+        this.tickerSymbol = ''
       }
     }
   }
