@@ -1,7 +1,7 @@
 <template>
   <div class="ui centered grid container">
     <h1 class="ui center aligned header">Chart the Stock Market</h1>
-    <h4 class="ui center aligned header">A Freecodecamp Full-Stack Project using Vue.js, Semantic UI with Google Material theme, Express.js, Socket.IO, and MongoDB</h4>
+    <h4 class="ui center aligned header">A Freecodecamp Full-Stack Project using Vue.js 2, Semantic UI with Google Material theme, Express.js, Socket.IO, and MongoDB</h4>
     <div class="sixteen wide column">
       <site-chart :chartData="chartData" ></site-chart>
     </div>
