@@ -25,9 +25,6 @@
 <script>
   export default {
     name: 'form-add-stock',
-    props: {
-      stocks: Array
-    },
     data () {
       return {
         tickerSymbol: '',

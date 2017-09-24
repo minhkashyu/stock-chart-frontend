@@ -3,7 +3,7 @@
     <h1 class="ui center aligned header">Chart the Stock Market</h1>
     <h4 class="ui center aligned header">A Freecodecamp Full-Stack Project using Vue.js, Semantic UI with Google Material theme, Express.js, Socket.IO, and MongoDB</h4>
     <div class="sixteen wide column">
-      <site-chart></site-chart>
+      <site-chart :chartData="chartData" ></site-chart>
     </div>
     <div class="sixteen wide column">
       <div class="ui three stackable cards">
@@ -32,6 +32,7 @@
     data () {
       return {
         stocks: [],
+        chartData: [],
         isConnected: false
       }
     },
@@ -43,15 +44,20 @@
       disconnect () {
         this.isConnected = false
       },
-      getStocks (stocks) {
-        this.stocks = stocks
+      getStocks (context) {
+        this.stocks = context.stocks
+        this.chartData = context.chartData
       },
-      added (stock) {
-        this.stocks.push(stock)
+      added (context) {
+        this.stocks.push(context.newStock)
+        this.chartData.push(context.chartData[0])
       },
-      deleted (stock) {
+      deleted (oldStock) {
         this.stocks = this.stocks.filter(function (item) {
-          return item._id !== stock._id
+          return item._id !== oldStock._id
+        })
+        this.chartData = this.chartData.filter(function (item) {
+          return item.name !== oldStock.symbol
         })
       }
     },
@@ -62,6 +68,7 @@
       },
       removeStock (index, stockId) {
         this.stocks.splice(index, 1)
+        this.chartData.splice(index, 1)
         this.$socket.emit('deleteStock', stockId)
       }
     }
@@ -74,10 +81,6 @@
   h4.ui.header{
     color: white;
     text-shadow: 1px 1px #213e46;
-  }
-
-  #curve_chart {
-    width: 100%;
   }
 
   .ui.card > .content .remove.icon,
