@@ -3,10 +3,10 @@
     <div class="content">
       <div class="header">Syncs in realtime across clients</div>
       <div class="description">
-        <form class="ui form" @submit.prevent="addStock()" novalidate>
+        <form class="ui form" @submit.prevent="addStock" novalidate>
         <div class="field">
           <div class="ui fluid action input">
-            <input type="text" v-model.trim="tickerSymbol" @keyup.enter="submit" @keyup="validateInput()" name="tickerSymbol" placeholder="Ticker Symbol">
+            <input type="text" v-model.trim="tickerSymbol" @keyup="validateInput" @keyup.enter.native="addStock" name="tickerSymbol" placeholder="Ticker Symbol">
             <button class="ui right labeled icon button" type="submit">
               <i class="plus icon"></i>
               Add
@@ -37,11 +37,13 @@
       }
     },
     methods: {
-      validateInput () {
-        if (!this.tickerSymbol) {
-          this.errRequired = 'Ticker symbol cannot be empty.'
-        } else {
-          this.errRequired = ''
+      validateInput (event) {
+        if (event.key !== 'Enter') {
+          if (!this.tickerSymbol) {
+            this.errRequired = 'Ticker symbol cannot be empty.'
+          } else {
+            this.errRequired = ''
+          }
         }
       },
       addStock () {
